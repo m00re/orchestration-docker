@@ -43,7 +43,7 @@ cn: swarm
 objectClass: simpleSecurityObject
 objectClass: uidObject
 objectClass: applicationProcess
-userPassword: {SSHA}VkL0qvFEFMX7UG7BIrqEoNq9zdZFtPjh
+userPassword:
 description: Jenkins Swarm application account
 uid: swarm
 

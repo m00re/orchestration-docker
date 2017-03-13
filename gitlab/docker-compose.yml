@@ -6,13 +6,13 @@ services:
     command:
       - --loglevel warning
     volumes:
-      - /docker-containers/gitlab/data/redis:/var/lib/redis:Z
+      - gitlab-redis:/var/lib/redis:Z
 
   gitlab-db:
     image: sameersbn/postgresql:9.6-2
     restart: always
     volumes:
-      - /docker-containers/gitlab/data/db:/var/lib/postgresql:Z
+      - gitlab-db:/var/lib/postgresql:Z
     environment:
       - DB_USER=gitlab
       - DB_NAME=gitlab
@@ -22,7 +22,7 @@ services:
     image: sameersbn/gitlab:8.16.6
     restart: always
     volumes:
-      - /docker-containers/gitlab/data/main:/home/git/data:Z
+      - gitlab-data:/home/git/data:Z
     environment:
       - DEBUG=false
       - DB_HOST=gitlab-db

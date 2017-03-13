@@ -14,17 +14,53 @@ within a few minutes. It uses the following Docker Images:
 
 ## Starting up all containers
 
+Before starting all services, you need to override the default login, account and hostname environment variables. Simply
+use the file `docker-compose.override.yml.template` as a starting point and name it `docker-compose.override.yml`.
+
+```
+$ cp docker-compose.override.yml.template docker-compose.override.yml
+$ nano -w docker-compose.override.yml
+```
+
+Edit the existing environment variables as you prefer. You can override also the environment variables that are defined
+in the `docker-compose.yml` definitions of each respective application.
+
+Once you are done, you can launch the services via
+
+```
+$ docker-compose up -d openldap
+$ docker-compose up -d taiga
+$ docker-compose up -d jenkins-master
+$ docker-compose up -d jenkins-slave
+$ docker-compose up -d gitlab
+```
+
+To make sure all LDAP accounts are created prior to starting the services, proceed with the next section directly after
+starting the `openldap` container.
+
 ## Initialising LDAP directory
 
-### Preparing the initialisation
-Before importing the directory structure, you have to generate new passwords for the user/applications accounts.
-This can easily be done using the following command:
+Before importing the directory structure, you have to generate new passwords for the user/applications accounts and 
+need to insert them into the file `openldap/init.ldif`. This can easily be done using the following command:
 
 ```
-docker exec openldap slappasswd -s <YourSecurePassword>
+$ docker exec <DockerComposePrefix>_openldap_1 slappasswd -s <YourSecurePassword>
 ```
 
-### Performing the initialisation
+By default, the following three user/application accounts are created:
+
+ - maintainer: the main developer account
+ - admin: the administration account for Jenkins 
+ - swarm: the Jenkins slave node account
+
+Feel free to add more accounts. 
+
+Once you are done with editing the file `init.ldif`, copy it to the docker volume directory 
+`/var/lib/docker/volumes/<DockerComposePrefix>_openldap_1/_data` and run the following command.
+
+```
+docker exec <DockerComposePrefix>_openldap_1 ldapadd -x -D "cn=admin,dc=example,dc=com" -f /var/lib/ldap/init.ldif -w <YourLdapAdminPassword>
+```
 
 ## Disclaimer
 Please use at your own risk.

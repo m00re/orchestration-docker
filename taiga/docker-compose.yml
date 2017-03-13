@@ -7,8 +7,8 @@ services:
       - POSTGRES_DB=taiga
       - POSTGRES_USER=taiga
     volumes:
-      - /docker-containers/taiga/data/db:/var/lib/postgresql/data
-      - /docker-containers/taiga/backups:/backups
+      - taiga-db:/var/lib/postgresql/data
+      - taiga-backups:/backups
 
   taiga:
     image: m00re/taiga:3.1.0-ldap
@@ -25,4 +25,4 @@ services:
       - TAIGA_SSL=true
       - TAIGA_DEFAULT_THEME=material-design
     volumes:
-      - /docker-containers/taiga/data/media:/taiga.io/taiga-back/media
+      - taiga-media:/taiga.io/taiga-back/media

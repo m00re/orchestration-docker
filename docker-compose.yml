@@ -103,3 +103,14 @@ services:
       - jenkins-master
     environment:
       - SWARM_JENKINS_PASSWORD=<PasswordOfYourJenkinsSlaveUser>
+
+volumes:
+  openldap-lib:
+  openldap-slapd:
+  gitlab-redis:
+  gitlab-db:
+  gitlab-data:
+  jenkins-master:
+  taiga-db:
+  taiga-media:
+  taiga-backups:
