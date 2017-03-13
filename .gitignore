@@ -1,0 +1,4 @@
+portainer/
+*/data
+*/backups
+*.override.yml

@@ -1,0 +1,62 @@
+version: '2'
+services:
+  gitlab-redis:
+    image: sameersbn/redis:latest
+    restart: always
+    command:
+      - --loglevel warning
+    volumes:
+      - /docker-containers/gitlab/data/redis:/var/lib/redis:Z
+
+  gitlab-db:
+    image: sameersbn/postgresql:9.6-2
+    restart: always
+    volumes:
+      - /docker-containers/gitlab/data/db:/var/lib/postgresql:Z
+    environment:
+      - DB_USER=gitlab
+      - DB_NAME=gitlab
+      - DB_EXTENSION=pg_trgm
+
+  gitlab:
+    image: sameersbn/gitlab:8.16.6
+    restart: always
+    volumes:
+      - /docker-containers/gitlab/data/main:/home/git/data:Z
+    environment:
+      - DEBUG=false
+      - DB_HOST=gitlab-db
+      - DB_ADAPTER=postgresql
+      - DB_PORT=5432
+      - DB_USER=gitlab
+      - DB_NAME=gitlab
+      - REDIS_HOST=gitlab-redis
+      - REDIS_PORT=6379
+      - TZ=Europe/Berlin
+      - GITLAB_TIMEZONE=Berlin
+      - GITLAB_HTTPS=true
+      - SSL_SELF_SIGNED=false
+      - GITLAB_SSH_PORT=22
+      - GITLAB_RELATIVE_URL_ROOT=
+      - GITLAB_SIGNUP_ENABLED=false
+      - GITLAB_ROOT_PASSWORD=
+      - GITLAB_ROOT_EMAIL=
+      - GITLAB_USERNAME_CHANGE=false
+      - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
+      - GITLAB_NOTIFY_PUSHER=false
+      - GITLAB_PROJECTS_ISSUES=true
+      - GITLAB_PROJECTS_MERGE_REQUESTS=true
+      - GITLAB_PROJECTS_WIKI=true
+      - GITLAB_PROJECTS_SNIPPETS=true
+      - GITLAB_PROJECTS_BUILDS=false
+      - GITLAB_PROJECTS_CONTAINER_REGISTRY=false
+      - GITLAB_ARTIFACTS_ENABLED=false
+      - GITLAB_EMAIL=
+      - GITLAB_EMAIL_REPLY_TO=
+      - GITLAB_INCOMING_EMAIL_ADDRESS=
+      - GITLAB_BACKUP_SCHEDULE=disable
+      - SMTP_ENABLED=true
+      - SMTP_PORT=25
+      - SMTP_STARTTLS=true
+      - SMTP_AUTHENTICATION=login
+      - OAUTH_ENABLED=false

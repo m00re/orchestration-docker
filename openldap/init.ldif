@@ -1,0 +1,60 @@
+dn: ou=accounts,dc=example,dc=com
+objectclass:organizationalUnit
+ou: accounts
+description: LDAP branch for all user/application accounts
+
+dn: ou=users,ou=accounts,dc=example,dc=com
+objectclass:organizationalUnit
+ou: users
+description: LDAP branch for all available user accounts
+
+dn: ou=applications,ou=accounts,dc=example,dc=com
+objectclass:organizationalUnit
+ou: applications
+description: LDAP branch for all available application accounts
+
+dn: ou=groups,dc=example,dc=com
+objectclass:organizationalUnit
+ou: groups
+description: LDAP branch for all available groups
+
+dn: cn=maintainer,ou=users,ou=accounts,dc=example,dc=com
+objectClass: inetOrgPerson
+displayName: Project Maintainer
+mail: maintainer@example.com
+uid: maintainer
+cn: maintainer
+sn: Maintainer
+userPassword:
+description: Project maintainer
+
+dn: cn=admin,ou=users,ou=accounts,dc=example,dc=com
+objectClass: inetOrgPerson
+displayName: Service Administrator
+mail: admin@example.com
+uid: admin
+cn: admin
+sn: Administrator
+userPassword:
+description: Service administrator
+
+dn: cn=swarm,ou=applications,ou=accounts,dc=example,dc=com
+cn: swarm
+objectClass: simpleSecurityObject
+objectClass: uidObject
+objectClass: applicationProcess
+userPassword: {SSHA}VkL0qvFEFMX7UG7BIrqEoNq9zdZFtPjh
+description: Jenkins Swarm application account
+uid: swarm
+
+dn: cn=developers,ou=groups,dc=example,dc=com
+objectclass: groupOfNames
+cn: developers
+description: Example Inc. developers
+member: cn=maintainer,ou=users,ou=accounts,dc=example,dc=com
+
+dn: cn=jenkins-slaves,ou=groups,dc=example,dc=com
+objectclass: groupOfNames
+cn: jenkins-slaves
+description: Jenkins slave nodes
+member: cn=swarm,ou=applications,ou=accounts,dc=example,dc=com

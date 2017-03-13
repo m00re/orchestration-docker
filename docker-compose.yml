@@ -1,0 +1,105 @@
+version: '2'
+services:
+
+  openldap:
+    extends:
+      file: ./openldap/docker-compose.yml
+      service: openldap
+    environment:
+      - LDAP_ADMIN_PASSWORD=<YourLdapAdminPasswordHere
+      - LDAP_DOMAIN=<YourLdapDomainHere>
+      - LDAP_ORGANISATION=<YourLdapOrganisationHere>
+      - LDAP_READONLY_USER_PASSWORD=<YourLdapReadOnlyPasswordHere>
+
+  gitlab-db:
+    extends:
+      file: ./gitlab/docker-compose.yml
+      service: gitlab-db
+    environment:
+      - DB_PASS=<YourGitlabDbPasswordHere>
+
+  gitlab-redis:
+    extends:
+      file: ./gitlab/docker-compose.yml
+      service: gitlab-redis
+
+  gitlab:
+    extends:
+      file: ./gitlab/docker-compose.yml
+      service: gitlab
+    ports:
+      - 9001:80
+    depends_on:
+      - openldap
+      - gitlab-redis
+      - gitlab-db
+    environment:
+      - GITLAB_HOST=<YourExternalHostnameHere>
+      - GITLAB_PORT=9001
+      - DB_PASS=<YourGitlabDbPasswordHere>
+      - GITLAB_SECRETS_DB_KEY_BASE=<YourLongAndRandomAlphanumericStringHere>
+      - GITLAB_SECRETS_SECRET_KEY_BASE=<YourLongAndRandomAlphanumericStringHere>
+      - GITLAB_SECRETS_OTP_KEY_BASE=<YourLongAndRandomAlphanumericStringHere>
+      - SMTP_DOMAIN=<YourSmtpDomainHere>
+      - SMTP_HOST=<YourSmtpHostHere>
+      - SMTP_USER=<YourSmtpUserHere>
+      - SMTP_PASS=<YourSmtpPasswordHere>
+      - LDAP_ENABLED=true
+      - LDAP_HOST=openldap
+      - LDAP_BIND_DN=<YourLdapReadonlyUserHere>
+      - LDAP_UID=uid
+      - LDAP_PASS=<YourLdapReadOnlyPasswordHere>
+      - LDAP_ACTIVE_DIRECTORY=false
+      - LDAP_BASE=<YourLdapSearchBaseDirectoryHere>
+
+  taiga-db:
+    extends:
+      file: ./taiga/docker-compose.yml
+      service: taiga-db
+    environment:
+      - POSTGRES_PASSWORD=<YourTaigaDbPasswordHere>
+
+  taiga:
+    extends:
+      file: ./taiga/docker-compose.yml
+      service: taiga
+    depends_on:
+      - taiga-db
+      - openldap
+    ports:
+      - 9002:80
+    environment:
+      - TAIGA_HOSTNAME=<YourTaigaHostnameHere>
+      - TAIGA_DB_PASSWORD=<YourTaigaDbPasswordHere>
+      - TAIGA_SECRET_KEY=<YourSecretKeyHere>
+      - LDAP_ENABLE=true
+      - LDAP_SERVER=openldap
+      - LDAP_PORT=389
+      - LDAP_BIND_DN=<YourLdapReadonlyUserHere>
+      - LDAP_BIND_PASSWORD=<YourLdapReadOnlyPasswordHere>
+      - LDAP_SEARCH_BASE=<YourLdapSearchBaseDirectoryHere>
+      - LDAP_SEARCH_PROPERTY=uid
+      - LDAP_EMAIL_PROPERTY=mail
+      - LDAP_FULL_NAME_PROPERTY=displayName
+
+  jenkins-master:
+    extends:
+      file: ./jenkins-master/docker-compose.yml
+      service: jenkins-master
+    depends_on:
+      - openldap
+    ports:
+      - 9003:8080
+    environment:
+      - JENKINS_ADMIN_USER=<NameOfYourAdminUserHere>
+      - JENKINS_ADMIN_PASSWORD=<PasswordOfYourAdminUserHere>
+      - JENKINS_KEYSTORE_PASSWORD=<YourKeystorePasswordHere>
+
+  jenkins-slave-vagrant-instance-1:
+    extends:
+      file: ./jenkins-slave/docker-compose.yml
+      service: jenkins-slave-vagrant
+    depends_on:
+      - jenkins-master
+    environment:
+      - SWARM_JENKINS_PASSWORD=<PasswordOfYourJenkinsSlaveUser>

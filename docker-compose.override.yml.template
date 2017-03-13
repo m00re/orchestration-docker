@@ -1,0 +1,51 @@
+version: '2'
+services:
+
+  openldap:
+    environment:
+      - LDAP_ADMIN_PASSWORD=admin
+      - LDAP_DOMAIN=example.com
+      - LDAP_ORGANISATION=Example Inc.
+      - LDAP_READONLY_USER_PASSWORD=readonly
+
+  gitlab-db:
+    environment:
+      - DB_PASS=gitlab
+
+  gitlab:
+    environment:
+      - GITLAB_HOST=git.example.com
+      - DB_PASS=gitlab
+      - GITLAB_SECRETS_DB_KEY_BASE=1234567
+      - GITLAB_SECRETS_SECRET_KEY_BASE=1234567
+      - GITLAB_SECRETS_OTP_KEY_BASE=1234567
+      - SMTP_DOMAIN=example.com
+      - SMTP_HOST=mail.example.com
+      - SMTP_USER=admin@example.com
+      - SMTP_PASS=admin1234
+      - LDAP_BIND_DN=cn=readonly,dc=example,dc=com
+      - LDAP_PASS=readonly
+      - LDAP_BASE=ou=users,ou=accounts,dc=example,dc=com
+
+  taiga-db:
+    environment:
+      - POSTGRES_PASSWORD=taiga
+
+  taiga:
+    environment:
+      - TAIGA_HOSTNAME=taiga.example.com
+      - TAIGA_DB_PASSWORD=taiga
+      - TAIGA_SECRET_KEY=1234567
+      - LDAP_BIND_DN=cn=readonly,dc=example,dc=com
+      - LDAP_BIND_PASSWORD=readonly
+      - LDAP_SEARCH_BASE=ou=users,ou=accounts,dc=example,dc=com
+
+  jenkins-master:
+    environment:
+      - JENKINS_ADMIN_USER=admin
+      - JENKINS_ADMIN_PASSWORD=admin
+      - JENKINS_KEYSTORE_PASSWORD=1234567
+
+  jenkins-slave-vagrant-instance-1:
+    environment:
+      - SWARM_JENKINS_PASSWORD=swarm
