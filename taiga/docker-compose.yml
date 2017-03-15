@@ -1,14 +1,14 @@
 version: '2'
 services:
   taiga-db:
-    image: postgres:9.6.1-alpine
+    image: postgres:9.6.2-alpine
     restart: always
     environment:
       - POSTGRES_DB=taiga
       - POSTGRES_USER=taiga
     volumes:
-      - taiga-db:/var/lib/postgresql/data
-      - taiga-backups:/backups
+      - taiga-db:/var/lib/postgresql/data:Z
+      - taiga-backups:/backups:Z
 
   taiga:
     image: m00re/taiga:3.1.0-ldap
@@ -25,4 +25,4 @@ services:
       - TAIGA_SSL=true
       - TAIGA_DEFAULT_THEME=material-design
     volumes:
-      - taiga-media:/taiga.io/taiga-back/media
+      - taiga-media:/taiga.io/taiga-back/media:Z

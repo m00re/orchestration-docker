@@ -2,3 +2,4 @@ portainer/
 */data
 */backups
 *.override.yml
+.idea

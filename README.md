@@ -62,5 +62,19 @@ Once you are done with editing the file `init.ldif`, copy it to the docker volum
 docker exec <DockerComposePrefix>_openldap_1 ldapadd -x -D "cn=admin,dc=example,dc=com" -f /var/lib/ldap/init.ldif -w <YourLdapAdminPassword>
 ```
 
-## Disclaimer
-Please use at your own risk.
+## Configure Jenkins for LDAP-based authentication
+
+As the Jenkins docker container does not automatically configure LDAP authentication, you need to configure it manually.
+After logging in with the defined Jenkins admin account, go to `Manage Jenkins - Configure Security` and enable the LDAP
+ realm using the following extended settings:
+ 
+ - Server name: `openldap`
+ - Stamm-DN: `dc=example,dc=com`
+ - Base for user queries: `ou=accounts`
+ - Filter for user names: `uid={0}`
+ - Base for group queries: `ou=groups`
+ - Group membership: select `Search for groups containing user`
+ - Manager DN: `cn=readonly,dc=example,dc=com`
+ - Manager Password: enter the configured password from `init.ldif
+ - Display name LDAP attribute: `displayName`
+ - E-Mail address LDAP attribute: `mail`

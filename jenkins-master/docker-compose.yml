@@ -4,7 +4,7 @@ services:
     image: m00re/jenkins-docker:2.32.3-alpine
     restart: always
     volumes:
-      - jenkins-master:/var/jenkins_home
+      - jenkins-master:/var/jenkins_home:Z
     environment:
       - JAVA_VM_PARAMETERS=-Xmx1024m -Xms512m
       - JENKINS_PARAMETERS=
