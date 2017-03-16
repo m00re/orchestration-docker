@@ -3,14 +3,10 @@
 This is an orchestration template for Docker, that helps to setup a working Gitlab, Taiga & Jenkins environment
 within a few minutes. It uses the following Docker Images:
 
- - Gitlab:
- - Taiga:
- - Jenkins:
+ - Gitlab: https://hub.docker.com/r/sameersbn/gitlab/
+ - Taiga: https://hub.docker.com/r/m00re/taiga/
+ - Jenkins: https://hub.docker.com/r/m00re/jenkins-docker/ and https://hub.docker.com/r/m00re/jenkins-slave-hashicorp/
  - Vagrant Repo:
-
-## How to use
-
-
 
 ## Starting up all containers
 
@@ -50,7 +46,7 @@ $ docker exec <DockerComposePrefix>_openldap_1 slappasswd -s <YourSecurePassword
 By default, the following three user/application accounts are created:
 
  - maintainer: the main developer account
- - admin: the administration account for Jenkins 
+ - admin: the administration account for Jenkins, Taiga and Gitlab
  - swarm: the Jenkins slave node account
 
 Feel free to add more accounts. 
@@ -78,3 +74,9 @@ After logging in with the defined Jenkins admin account, go to `Manage Jenkins -
  - Manager Password: enter the configured password from `init.ldif
  - Display name LDAP attribute: `displayName`
  - E-Mail address LDAP attribute: `mail`
+
+## Notes
+
+Even though you can specify initial admin credentials for the Docker images of Jenkins, Taiga, and Gitlab, those will not
+work. All services always use the admin account defined in LDAP, hence you have to use the password stored in the LDAP
+directory.
