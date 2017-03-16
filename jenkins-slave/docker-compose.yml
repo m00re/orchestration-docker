@@ -8,7 +8,7 @@ services:
       - SWARM_VM_PARAMETERS=
       - SWARM_MASTER_URL=
       - SWARM_CLIENT_PARAMETERS=
-      - SWARM_JENKINS_USER=slave
+      - SWARM_JENKINS_USER=swarm
       - SWARM_CLIENT_EXECUTORS=1
       - SWARM_CLIENT_LABELS=vagrant packer virtualbox
     volumes:

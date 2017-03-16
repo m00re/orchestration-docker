@@ -31,7 +31,7 @@ Once you are done, you can launch the services via
 $ docker-compose up -d openldap
 $ docker-compose up -d taiga
 $ docker-compose up -d jenkins-master
-$ docker-compose up -d jenkins-slave
+$ docker-compose up -d jenkins-slave-vagrant-instance-1
 $ docker-compose up -d gitlab
 ```
 

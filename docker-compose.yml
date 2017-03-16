@@ -5,6 +5,8 @@ services:
     extends:
       file: ./openldap/docker-compose.yml
       service: openldap
+    networks:
+      - dev-environment
     environment:
       - LDAP_ADMIN_PASSWORD=<YourLdapAdminPasswordHere
       - LDAP_DOMAIN=<YourLdapDomainHere>
@@ -15,6 +17,8 @@ services:
     extends:
       file: ./gitlab/docker-compose.yml
       service: gitlab-db
+    networks:
+      - dev-environment
     environment:
       - DB_PASS=<YourGitlabDbPasswordHere>
 
@@ -22,11 +26,15 @@ services:
     extends:
       file: ./gitlab/docker-compose.yml
       service: gitlab-redis
+    networks:
+      - dev-environment
 
   gitlab:
     extends:
       file: ./gitlab/docker-compose.yml
       service: gitlab
+    networks:
+      - dev-environment
     ports:
       - 9001:80
     depends_on:
@@ -56,6 +64,8 @@ services:
     extends:
       file: ./taiga/docker-compose.yml
       service: taiga-db
+    networks:
+      - dev-environment
     environment:
       - POSTGRES_PASSWORD=<YourTaigaDbPasswordHere>
 
@@ -63,6 +73,8 @@ services:
     extends:
       file: ./taiga/docker-compose.yml
       service: taiga
+    networks:
+      - dev-environment
     depends_on:
       - taiga-db
       - openldap
@@ -86,6 +98,8 @@ services:
     extends:
       file: ./jenkins-master/docker-compose.yml
       service: jenkins-master
+    networks:
+      - dev-environment
     depends_on:
       - openldap
     ports:
@@ -99,6 +113,8 @@ services:
     extends:
       file: ./jenkins-slave/docker-compose.yml
       service: jenkins-slave-vagrant
+    networks:
+      - dev-environment
     depends_on:
       - jenkins-master
     environment:
@@ -114,3 +130,7 @@ volumes:
   taiga-db:
   taiga-media:
   taiga-backups:
+
+networks:
+  dev-environment:
+    driver: bridge
