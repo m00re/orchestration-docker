@@ -118,6 +118,7 @@ services:
     depends_on:
       - jenkins-master
     environment:
+      - SWARM_MASTER_URL=http://jenkins-master:8080/
       - SWARM_JENKINS_PASSWORD=<PasswordOfYourJenkinsSlaveUser>
 
 volumes:

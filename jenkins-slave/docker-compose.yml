@@ -2,7 +2,7 @@ version: '2'
 services:
 
   jenkins-slave-vagrant:
-    image: m00re/jenkins-slave-hashicorp:2.2.1
+    image: m00re/jenkins-slave-hashicorp:3.3
     restart: always
     environment:
       - SWARM_VM_PARAMETERS=
