@@ -1,7 +1,7 @@
 version: '2'
 services:
   vagrant-repository:
-    image: m00re/nginx-ldap
+    image: m00re/nginx-ldap:1.9.15
     restart: always
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:Z

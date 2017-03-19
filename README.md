@@ -29,6 +29,7 @@ $ docker-compose up -d taiga
 $ docker-compose up -d jenkins-master
 $ docker-compose up -d jenkins-slave-vagrant-instance-1
 $ docker-compose up -d gitlab
+$ docker-compose up -d vagrant-repository
 ```
 
 To make sure all LDAP accounts are created prior to starting the services, proceed with the next section directly after
@@ -58,7 +59,7 @@ Once you are done with editing the file `init.ldif`, copy it to the docker volum
 docker exec <DockerComposePrefix>_openldap_1 ldapadd -x -D "cn=admin,dc=example,dc=com" -f /var/lib/ldap/init.ldif -w <YourLdapAdminPassword>
 ```
 
-## Configure Jenkins for LDAP-based authentication
+## Configuring Jenkins for LDAP-based authentication
 
 As the Jenkins docker container does not automatically configure LDAP authentication, you need to configure it manually.
 After logging in with the defined Jenkins admin account, go to `Manage Jenkins - Configure Security` and enable the LDAP
@@ -74,6 +75,17 @@ After logging in with the defined Jenkins admin account, go to `Manage Jenkins -
  - Manager Password: enter the configured password from `init.ldif
  - Display name LDAP attribute: `displayName`
  - E-Mail address LDAP attribute: `mail`
+
+## Configuring Vagrant Box Repository
+
+To make sure that the private Vagrant box repository performes proper authentication and authorization against the LDAP
+directory, rename (or copy) the provided template ```vbox-repository/nginx.conf.template``` to 
+```vbox-repository/nginx.conf.template``` and adjust the LDAP-parameters as required. Afterwards, bring up the repository
+via
+
+```
+$ docker-compose up -d vagrant-repository
+```
 
 ## Notes
 
