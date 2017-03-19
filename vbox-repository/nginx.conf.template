@@ -24,16 +24,17 @@ http {
 
     # Define LDAP servers
     ldap_server openldap-read {
-        url "ldap://openldap:389/ou=accounts,dc=example,dc=com?uid";
+        url "ldap://openldap:389/ou=accounts,dc=example,dc=com?uid?sub";
         binddn "cn=readonly,dc=example,dc=com";
         binddn_passwd <YourLdapReadOnlyPasswordHere>;
         group_attribute member;
         group_attribute_is_dn on;
         satisfy any;
         require group "cn=developers,ou=groups,dc=example,dc=com";
+        require group "cn=jenkins-slaves,ou=groups,dc=example,dc=com";
     }
-    ldap_server openldap-readwrite {
-        url "ldap://openldap:389/ou=accounts,dc=example,dc=com?uid";
+    ldap_server openldap-write {
+        url "ldap://openldap:389/ou=accounts,dc=example,dc=com?uid?sub";
         binddn "cn=readonly,dc=example,dc=com";
         binddn_passwd <YourLdapReadOnlyPasswordHere>;
         group_attribute member;
@@ -45,7 +46,7 @@ http {
     server {
         listen      80 default_server;
         listen      [::]:80 default_server;
-        root         /usr/share/nginx/html;
+        root        /usr/share/nginx/html;
 
         location / {
             root                       /home/nginx;
@@ -55,12 +56,14 @@ http {
 
             # Allow non-existing paths to be created if necessary
             create_full_put_path       on;
-            dav_access                 user:rw group:rw all:r;
+            dav_access                 user:rw group:r all:r;
 
             # adding ldap authentication
-            auth_ldap "Private Vagrant Repository of datagnan.com";
+            limit_except GET {
+                auth_ldap_servers openldap-write;
+            }
+            auth_ldap "Private Vagrant Repository of example.com";
             auth_ldap_servers openldap-read;
-            auth_ldap_servers openldap-readwrite;
         }
     }
 }
