@@ -121,6 +121,17 @@ services:
       - SWARM_MASTER_URL=http://jenkins-master:8080/
       - SWARM_JENKINS_PASSWORD=<PasswordOfYourJenkinsSlaveUser>
 
+  vagrant-repository:
+    extends:
+      file: ./vbox-repository/docker-compose.yml
+      service: vagrant-repository
+    networks:
+      - dev-environment
+    depends_on:
+      - openldap
+    ports:
+      - 9004:80
+
 volumes:
   openldap-lib:
   openldap-slapd:
@@ -131,6 +142,7 @@ volumes:
   taiga-db:
   taiga-media:
   taiga-backups:
+  vbox-repository:
 
 networks:
   dev-environment:
