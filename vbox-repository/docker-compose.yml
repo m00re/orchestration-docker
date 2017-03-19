@@ -4,5 +4,5 @@ services:
     image: m00re/nginx-ldap
     restart: always
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf.template
-      - vbox-repository:/vboxes/data
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - vbox-repository:/vboxes
