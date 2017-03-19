@@ -42,19 +42,25 @@ http {
         require group "cn=jenkins-slaves,ou=groups,dc=example,dc=com";
     }
 
-    location / {
-        root                       /vboxes;
-        client_body_temp_path      /tmp;
-        dav_methods                PUT DELETE MKCOL COPY MOVE;
-        client_max_body_size       16400M;
+    server {
+        listen      80 default_server;
+        listen      [::]:80 default_server;
+        root         /usr/share/nginx/html;
 
-        # Allow non-existing paths to be created if necessary
-        create_full_put_path       on;
-        dav_access                 user:rw group:rw all:r;
+        location / {
+            root                       /home/nginx;
+            client_body_temp_path      /tmp;
+            dav_methods                PUT DELETE MKCOL COPY MOVE;
+            client_max_body_size       16400M;
 
-        # adding ldap authentication
-        auth_ldap "Private Vagrant Repository of datagnan.com";
-        auth_ldap_servers openldap-read;
-        auth_ldap_servers openldap-readwrite;
+            # Allow non-existing paths to be created if necessary
+            create_full_put_path       on;
+            dav_access                 user:rw group:rw all:r;
+
+            # adding ldap authentication
+            auth_ldap "Private Vagrant Repository of datagnan.com";
+            auth_ldap_servers openldap-read;
+            auth_ldap_servers openldap-readwrite;
+        }
     }
 }
