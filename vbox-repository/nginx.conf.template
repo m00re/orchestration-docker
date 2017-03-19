@@ -1,0 +1,60 @@
+user  nginx;
+worker_processes  1;
+
+error_log   /var/log/nginx/error.log warn;
+pid         /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    log_format          main  '$remote_addr - $remote_user [$time_local] "$request" '
+                              '$status $body_bytes_sent "$http_referer" '
+                              '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log          /var/log/nginx/access.log  main;
+    sendfile            on;
+    keepalive_timeout   65;
+
+    # Define LDAP servers
+    ldap_server openldap-read {
+        url "ldap://openldap:389/ou=accounts,dc=example,dc=com?uid";
+        binddn "cn=readonly,dc=example,dc=com";
+        binddn_passwd <YourLdapReadOnlyPasswordHere>;
+        group_attribute member;
+        group_attribute_is_dn on;
+        satisfy any;
+        require group "cn=developers,ou=groups,dc=example,dc=com";
+    }
+    ldap_server openldap-readwrite {
+        url "ldap://openldap:389/ou=accounts,dc=example,dc=com?uid";
+        binddn "cn=readonly,dc=example,dc=com";
+        binddn_passwd <YourLdapReadOnlyPasswordHere>;
+        group_attribute member;
+        group_attribute_is_dn on;
+        satisfy any;
+        require group "cn=jenkins-slaves,ou=groups,dc=example,dc=com";
+    }
+
+    location / {
+        root                       /vboxes;
+        client_body_temp_path      /tmp;
+        dav_methods                PUT DELETE MKCOL COPY MOVE;
+        client_max_body_size       16400M;
+
+        # Allow non-existing paths to be created if necessary
+        create_full_put_path       on;
+        dav_access                 user:rw group:rw all:r;
+
+        # adding ldap authentication
+        auth_ldap "Private Vagrant Repository of datagnan.com";
+        auth_ldap_servers openldap-read;
+        auth_ldap_servers openldap-readwrite;
+    }
+}

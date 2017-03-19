@@ -6,7 +6,7 @@ within a few minutes. It uses the following Docker Images:
  - Gitlab: https://hub.docker.com/r/sameersbn/gitlab/
  - Taiga: https://hub.docker.com/r/m00re/taiga/
  - Jenkins: https://hub.docker.com/r/m00re/jenkins-docker/ and https://hub.docker.com/r/m00re/jenkins-slave-hashicorp/
- - Vagrant Repo:
+ - Vagrant Repository: https://github.com/m00re/nginx-ldap-docker
 
 ## Starting up all containers
 
