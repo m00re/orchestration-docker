@@ -2,7 +2,7 @@ version: '2'
 services:
 
   jenkins-slave-vagrant:
-    image: m00re/jenkins-slave-hashicorp:3.3
+    image: m00re/jenkins-slave-hashicorp:3.3.1
     restart: always
     environment:
       - SWARM_VM_PARAMETERS=
@@ -11,6 +11,7 @@ services:
       - SWARM_JENKINS_USER=swarm
       - SWARM_CLIENT_EXECUTORS=1
       - SWARM_CLIENT_LABELS=vagrant packer virtualbox
+      - VAGRANT_ADD_CURL_NETRC_HACK=true
     volumes:
       - /dev/vboxdrv:/dev/vboxdrv
     privileged: true
