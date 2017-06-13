@@ -46,6 +46,6 @@ services:
       - JENKINS_ADMIN_PASSWORD=admin
       - JENKINS_KEYSTORE_PASSWORD=1234567
 
-  jenkins-slave-vagrant-instance-1:
+  jenkins-slave:
     environment:
       - SWARM_JENKINS_PASSWORD=swarm
