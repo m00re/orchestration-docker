@@ -6,3 +6,15 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:Z
       - vbox-repository:/home/nginx:Z
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+        labels: "domain,application,component,stage,os"
+    labels:
+      domain: boxes.datagnan.com
+      application: nginx
+      component: nginx
+      stage: production
+      os: alpine

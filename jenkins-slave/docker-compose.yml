@@ -2,7 +2,7 @@ version: '2'
 services:
 
   jenkins-slave-vagrant:
-    image: m00re/jenkins-slave-hashicorp:3.3.1
+    image: m00re/jenkins-slave-hashicorp:3.4
     restart: always
     environment:
       - SWARM_VM_PARAMETERS=
@@ -12,6 +12,18 @@ services:
       - SWARM_CLIENT_EXECUTORS=1
       - SWARM_CLIENT_LABELS=vagrant packer virtualbox
       - VAGRANT_ADD_CURL_NETRC_HACK=true
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+        labels: "domain,application,component,stage,os"
+    labels:
+      domain: ci.datagnan.com
+      application: jenkins
+      component: slave
+      stage: production
+      os: alpine
     volumes:
       - /dev/vboxdrv:/dev/vboxdrv
     privileged: true

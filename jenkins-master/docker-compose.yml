@@ -1,10 +1,22 @@
 version: '2'
 services:
   jenkins-master:
-    image: m00re/jenkins-docker:2.46.2-alpine
+    image: m00re/jenkins-docker:2.46.3-alpine
     restart: always
     volumes:
       - jenkins-master:/var/jenkins_home:Z
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+        labels: "domain,application,component,stage,os"
+    labels:
+      domain: ci.datagnan.com
+      application: jenkins
+      component: master
+      stage: production
+      os: alpine
     environment:
       - JAVA_VM_PARAMETERS=-Xmx1024m -Xms512m
       - JENKINS_PARAMETERS=

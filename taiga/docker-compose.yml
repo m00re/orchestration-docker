@@ -9,6 +9,18 @@ services:
     volumes:
       - taiga-db:/var/lib/postgresql/data:Z
       - taiga-backups:/backups:Z
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+        labels: "domain,application,component,stage,os"
+    labels:
+      domain: projects.datagnan.com
+      application: taiga
+      component: postgresql
+      stage: production
+      os: alpine
 
   taiga:
     image: m00re/taiga:3.1.0-ldap
@@ -26,3 +38,15 @@ services:
       - TAIGA_DEFAULT_THEME=material-design
     volumes:
       - taiga-media:/taiga.io/taiga-back/media:Z
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+        labels: "domain,application,component,stage,os"
+    labels:
+      domain: projects.datagnan.com
+      application: taiga
+      component: taiga
+      stage: production
+      os: alpine
