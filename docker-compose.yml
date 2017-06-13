@@ -3,10 +3,10 @@ services:
 
   openldap:
     extends:
-      file: ./openldap/docker-compose.yml
+      file: ./core/openldap/docker-compose.yml
       service: openldap
     networks:
-      - dev-environment
+      - core
     environment:
       - LDAP_ADMIN_PASSWORD=<YourLdapAdminPasswordHere
       - LDAP_DOMAIN=<YourLdapDomainHere>
@@ -15,26 +15,27 @@ services:
 
   gitlab-db:
     extends:
-      file: ./gitlab/docker-compose.yml
+      file: ./development/gitlab/docker-compose.yml
       service: gitlab-db
     networks:
-      - dev-environment
+      - development
     environment:
       - DB_PASS=<YourGitlabDbPasswordHere>
 
   gitlab-redis:
     extends:
-      file: ./gitlab/docker-compose.yml
+      file: ./development/gitlab/docker-compose.yml
       service: gitlab-redis
     networks:
-      - dev-environment
+      - development
 
   gitlab:
     extends:
-      file: ./gitlab/docker-compose.yml
+      file: ./development/gitlab/docker-compose.yml
       service: gitlab
     networks:
-      - dev-environment
+      - core
+      - development
     ports:
       - 9001:80
     depends_on:
@@ -62,19 +63,20 @@ services:
 
   taiga-db:
     extends:
-      file: ./taiga/docker-compose.yml
+      file: ./development/taiga/docker-compose.yml
       service: taiga-db
     networks:
-      - dev-environment
+      - development
     environment:
       - POSTGRES_PASSWORD=<YourTaigaDbPasswordHere>
 
   taiga:
     extends:
-      file: ./taiga/docker-compose.yml
+      file: ./development/taiga/docker-compose.yml
       service: taiga
     networks:
-      - dev-environment
+      - core
+      - development
     depends_on:
       - taiga-db
       - openldap
@@ -96,10 +98,11 @@ services:
 
   jenkins-master:
     extends:
-      file: ./jenkins-master/docker-compose.yml
+      file: ./development/jenkins-master/docker-compose.yml
       service: jenkins-master
     networks:
-      - dev-environment
+      - core
+      - development
     depends_on:
       - openldap
     ports:
@@ -109,12 +112,12 @@ services:
       - JENKINS_ADMIN_PASSWORD=<PasswordOfYourAdminUserHere>
       - JENKINS_KEYSTORE_PASSWORD=<YourKeystorePasswordHere>
 
-  jenkins-slave-vagrant-instance-1:
+  jenkins-slave:
     extends:
-      file: ./jenkins-slave/docker-compose.yml
+      file: ./development/jenkins-slave/docker-compose.yml
       service: jenkins-slave-vagrant
     networks:
-      - dev-environment
+      - development
     depends_on:
       - jenkins-master
     environment:
@@ -123,10 +126,11 @@ services:
 
   vagrant-repository:
     extends:
-      file: ./vbox-repository/docker-compose.yml
+      file: ./development/vbox-repository/docker-compose.yml
       service: vagrant-repository
     networks:
-      - dev-environment
+      - core
+      - development
     depends_on:
       - openldap
     ports:
@@ -145,5 +149,7 @@ volumes:
   vbox-repository:
 
 networks:
-  dev-environment:
+  development:
+    driver: bridge
+  core:
     driver: bridge
