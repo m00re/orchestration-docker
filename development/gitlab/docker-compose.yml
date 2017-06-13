@@ -43,7 +43,7 @@ services:
       os: ubuntu
 
   gitlab:
-    image: sameersbn/gitlab:8.16.6
+    image: sameersbn/gitlab:8.17.4
     restart: always
     volumes:
       - gitlab-data:/home/git/data:Z
@@ -84,6 +84,7 @@ services:
       - SMTP_STARTTLS=true
       - SMTP_AUTHENTICATION=login
       - OAUTH_ENABLED=false
+      - GITLAB_BACKUP_EXPIRY=82800
     logging:
       driver: json-file
       options:
