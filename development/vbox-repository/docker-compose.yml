@@ -13,7 +13,7 @@ services:
         max-file: "3"
         labels: "domain,application,component,stage,os"
     labels:
-      domain: boxes.datagnan.com
+      domain: example.com
       application: nginx
       component: nginx
       stage: production

@@ -12,7 +12,7 @@ services:
         max-file: "3"
         labels: "domain,application,component,stage,os"
     labels:
-      domain: ci.datagnan.com
+      domain: example.com
       application: jenkins
       component: master
       stage: production

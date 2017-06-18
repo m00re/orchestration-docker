@@ -14,7 +14,7 @@ services:
         max-file: "3"
         labels: "domain,application,component,stage,os"
     labels:
-      domain: git.datagnan.com
+      domain: example.com
       application: gitlab
       component: redis
       stage: production
@@ -36,7 +36,7 @@ services:
         max-file: "3"
         labels: "domain,application,component,stage,os"
     labels:
-      domain: git.datagnan.com
+      domain: example.com
       application: gitlab
       component: postgresql
       stage: production
@@ -92,7 +92,7 @@ services:
         max-file: "3"
         labels: "domain,application,component,stage,os"
     labels:
-      domain: git.datagnan.com
+      domain: example.com
       application: gitlab
       component: gitlab
       stage: production

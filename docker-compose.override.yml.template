@@ -7,10 +7,18 @@ services:
       - LDAP_DOMAIN=example.com
       - LDAP_ORGANISATION=Example Inc.
       - LDAP_READONLY_USER_PASSWORD=readonly
+    labels:
+      domain: example.com
+
+  gitlab-redis:
+    labels:
+      domain: example.com
 
   gitlab-db:
     environment:
       - DB_PASS=gitlab
+    labels:
+      domain: example.com
 
   gitlab:
     environment:
@@ -26,10 +34,14 @@ services:
       - LDAP_BIND_DN=cn=readonly,dc=example,dc=com
       - LDAP_PASS=readonly
       - LDAP_BASE=ou=users,ou=accounts,dc=example,dc=com
+    labels:
+      domain: example.com
 
   taiga-db:
     environment:
       - POSTGRES_PASSWORD=taiga
+    labels:
+      domain: example.com
 
   taiga:
     environment:
@@ -39,13 +51,23 @@ services:
       - LDAP_BIND_DN=cn=readonly,dc=example,dc=com
       - LDAP_BIND_PASSWORD=readonly
       - LDAP_SEARCH_BASE=ou=users,ou=accounts,dc=example,dc=com
+    labels:
+      domain: example.com
 
   jenkins-master:
     environment:
       - JENKINS_ADMIN_USER=admin
       - JENKINS_ADMIN_PASSWORD=admin
       - JENKINS_KEYSTORE_PASSWORD=1234567
+    labels:
+      domain: example.com
 
   jenkins-slave:
     environment:
       - SWARM_JENKINS_PASSWORD=swarm
+    labels:
+      domain: example.com
+
+  vagrant-repository:
+    labels:
+      domain: example.com

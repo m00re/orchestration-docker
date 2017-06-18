@@ -16,7 +16,7 @@ services:
         max-file: "3"
         labels: "domain,application,component,stage,os"
     labels:
-      domain: projects.datagnan.com
+      domain: example.com
       application: taiga
       component: postgresql
       stage: production
@@ -45,7 +45,7 @@ services:
         max-file: "3"
         labels: "domain,application,component,stage,os"
     labels:
-      domain: projects.datagnan.com
+      domain: example.com
       application: taiga
       component: taiga
       stage: production

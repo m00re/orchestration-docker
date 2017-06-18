@@ -17,7 +17,7 @@ services:
         max-file: "3"
         labels: "domain,application,component,stage,os"
     labels:
-      domain: datagnan.com
+      domain: example.com
       application: openldap
       component: openldap
       stage: production
