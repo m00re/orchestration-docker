@@ -27,7 +27,7 @@ Once you are done, you can launch the services via
 $ docker-compose up -d openldap
 $ docker-compose up -d taiga
 $ docker-compose up -d jenkins-master
-$ docker-compose up -d jenkins-slave-vagrant-instance-1
+$ docker-compose up -d jenkins-slave
 $ docker-compose up -d gitlab
 $ docker-compose up -d vagrant-repository
 ```
@@ -53,7 +53,7 @@ By default, the following three user/application accounts are created:
 Feel free to add more accounts. 
 
 Once you are done with editing the file `init.ldif`, copy it to the docker volume directory 
-`/var/lib/docker/volumes/<DockerComposePrefix>_openldap_1/_data` and run the following command.
+`/var/lib/docker/volumes/<DockerComposePrefix>_openldap-lib/_data` and run the following command.
 
 ```
 docker exec <DockerComposePrefix>_openldap_1 ldapadd -x -D "cn=admin,dc=example,dc=com" -f /var/lib/ldap/init.ldif -w <YourLdapAdminPassword>
