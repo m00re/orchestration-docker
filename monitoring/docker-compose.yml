@@ -54,9 +54,6 @@ services:
     restart: always
     volumes:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:Z
-      - ../pki/certificates/completed/ca.cert.pem:/config/CA.pem:Z
-      - ../pki/certificates/completed/logstash.example.com.cert.pem:/config/logstash.crt:Z
-      - ../pki/keys/logstash.example.com.key.p8:/config/logstash.p8:Z
     logging:
       driver: json-file
       options:
