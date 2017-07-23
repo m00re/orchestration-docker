@@ -58,6 +58,7 @@ services:
       - ../pki/certificates/completed/logstash.example.com.cert.pem:/config/logstash.crt:Z
       - ../pki/keys/logstash.example.com.key.p8:/config/logstash.p8:Z
     logging:
+      driver: json-file
       options:
         max-size: 10m
         max-file: "3"
