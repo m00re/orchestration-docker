@@ -1,12 +1,14 @@
 # Docker Orchestration Template: OpenLDAP-based Gitlab, Taiga, Jenkins & Vagrant Repo
 
 This is an orchestration template for Docker, that helps to setup a working Gitlab, Taiga & Jenkins environment
-within a few minutes. It uses the following Docker Images:
+within a few minutes. It uses the following Docker images:
 
  - Gitlab: https://hub.docker.com/r/sameersbn/gitlab/
  - Taiga: https://hub.docker.com/r/m00re/taiga/
  - Jenkins: https://hub.docker.com/r/m00re/jenkins-docker/ and https://hub.docker.com/r/m00re/jenkins-slave-hashicorp/
  - Vagrant Repository: https://github.com/m00re/nginx-ldap-docker
+ - Kibana & Elasticsearch: https://github.com/elastic/kibana-docker and https://github.com/elastic/elasticsearch-docker
+ - Logstash: https://github.com/m00re/logstash-docker
 
 ## Starting up all containers
 
@@ -47,7 +49,7 @@ $ docker exec <DockerComposePrefix>_openldap_1 slappasswd -s <YourSecurePassword
 By default, the following three user/application accounts are created:
 
  - maintainer: the main developer account
- - admin: the administration account for Jenkins, Taiga and Gitlab
+ - admin: the administration account for Jenkins, Taiga, Gitlab, and Kibana
  - swarm: the Jenkins slave node account
 
 Feel free to add more accounts. 
@@ -58,6 +60,10 @@ Once you are done with editing the file `init.ldif`, copy it to the docker volum
 ```
 docker exec <DockerComposePrefix>_openldap_1 ldapadd -x -D "cn=admin,dc=example,dc=com" -f /var/lib/ldap/init.ldif -w <YourLdapAdminPassword>
 ```
+
+> Even though you can specify initial admin credentials for the Docker images of Jenkins, Taiga, and Gitlab, those will not
+  work. All services always use the admin account defined in LDAP, hence you have to use the password stored in the LDAP
+  directory.
 
 ## Configuring Jenkins for LDAP-based authentication
 
@@ -80,15 +86,19 @@ After logging in with the defined Jenkins admin account, go to `Manage Jenkins -
 
 To make sure that the private Vagrant box repository performes proper authentication and authorization against the LDAP
 directory, rename (or copy) the provided template ```vbox-repository/nginx.conf.template``` to 
-```vbox-repository/nginx.conf.template``` and adjust the LDAP-parameters as required. Afterwards, bring up the repository
+```vbox-repository/nginx.conf``` and adjust the LDAP-parameters as required. Afterwards, bring up the repository
 via
 
 ```
 $ docker-compose up -d vagrant-repository
 ```
 
-## Notes
+## Log management
 
-Even though you can specify initial admin credentials for the Docker images of Jenkins, Taiga, and Gitlab, those will not
-work. All services always use the admin account defined in LDAP, hence you have to use the password stored in the LDAP
-directory.
+All Docker container instances are configured to use the [JSON file logging driver](https://docs.docker.com/engine/admin/logging/json-file/).
+With this setup, Docker logs will be stored in ```/var/lib/docker/containers/**/*-json.log```. 
+
+Based on these files, it is possible to deploy an ELK-based log management solution. This orchestration already provides 
+all required ELK components and a matching configuration for each of them. 
+
+For more details please take a look at the dedicated chapter [Log Monitoring](monitoring/README.md).
