@@ -150,6 +150,10 @@ services:
       service: kibana
     networks:
       - monitoring
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
 
   logstash:
     extends:
@@ -157,6 +161,10 @@ services:
       service: logstash
     networks:
       - monitoring
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5044:5044
 
 volumes:
   openldap-lib:
