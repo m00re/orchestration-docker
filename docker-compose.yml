@@ -60,6 +60,7 @@ services:
       - LDAP_PASS=<YourLdapReadOnlyPasswordHere>
       - LDAP_ACTIVE_DIRECTORY=false
       - LDAP_BASE=<YourLdapSearchBaseDirectoryHere>
+      - GITLAB_BACKUP_EXPIRY=600
 
   taiga-db:
     extends:
@@ -136,6 +137,27 @@ services:
     ports:
       - 9004:80
 
+  elasticsearch:
+    extends:
+      file: ./monitoring/docker-compose.yml
+      service: elasticsearch
+    networks:
+      - monitoring
+
+  kibana:
+    extends:
+      file: ./monitoring/docker-compose.yml
+      service: kibana
+    networks:
+      - monitoring
+
+  logstash:
+    extends:
+      file: ./monitoring/docker-compose.yml
+      service: logstash
+    networks:
+      - monitoring
+
 volumes:
   openldap-lib:
   openldap-slapd:
@@ -147,9 +169,12 @@ volumes:
   taiga-media:
   taiga-backups:
   vbox-repository:
+  elasticsearch:
 
 networks:
   development:
     driver: bridge
   core:
+    driver: bridge
+  monitoring:
     driver: bridge

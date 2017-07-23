@@ -1,0 +1,78 @@
+version: '2'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.4.3-alpine
+    restart: always
+    environment:
+      - cluster.name=docker-cluster
+      - xpack.security.enabled=false
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 1g
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+        labels: "domain,application,component,stage,os"
+    labels:
+      domain: example.com
+      application: monitoring
+      component: elasticsearch
+      stage: production
+      os: alpine
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:5.4.3-alpine
+    restart: always
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - SERVER_NAME=logs.example.com
+      - XPACK_SECURITY_ENABLED=false
+      - XPACK_MONITORING_ENABLED=false
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+        labels: "domain,application,component,stage,os"
+    labels:
+      domain: example.com
+      application: monitoring
+      component: kibana
+      stage: production
+      os: alpine
+
+  logstash:
+    image: m00re/logstash:5.4.3
+    restart: always
+    networks: 
+      - esnet
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:Z
+      - ../pki/certificates/completed/ca.cert.pem:/config/CA.pem:Z
+      - ../pki/certificates/completed/logstash.example.com.cert.pem:/config/logstash.crt:Z
+      - ../pki/keys/logstash.example.com.key.p8:/config/logstash.p8:Z
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5044:5044
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+        labels: "domain,application,component,stage,os"
+    labels:
+      domain: example.com
+      application: monitoring
+      component: logstash
+      stage: production
+      os: centos
