@@ -152,8 +152,16 @@ services:
       - monitoring
     depends_on:
       - elasticsearch
+
+  kibana-protect:
+    extends:
+      file: ./monitoring/docker-compose.yml
+      service: kibana-protect
+    networks:
+      - monitoring
+      - core
     ports:
-      - 5601:5601
+      - 9005:80
 
   logstash:
     extends:

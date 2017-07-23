@@ -49,6 +49,24 @@ services:
       stage: production
       os: alpine
 
+  kibana-protect:
+    image: m00re/nginx-ldap:1.9.15
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:Z
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+        labels: "domain,application,component,stage,os"
+    labels:
+      domain: example.com
+      application: monitoring
+      component: nginx
+      stage: production
+      os: alpine
+
   logstash:
     image: m00re/logstash:5.4.3
     restart: always
