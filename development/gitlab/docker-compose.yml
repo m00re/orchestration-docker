@@ -43,7 +43,7 @@ services:
       os: ubuntu
 
   gitlab:
-    image: sameersbn/gitlab:8.17.4
+    image: sameersbn/gitlab:9.4.3
     restart: always
     volumes:
       - gitlab-data:/home/git/data:Z
