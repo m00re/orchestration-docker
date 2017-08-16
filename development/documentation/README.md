@@ -18,7 +18,7 @@ Inside of this folder, execute the following commands:
 ```bash
 # First we create the SSH host key for the documentation service
 $ mkdir ssh-keypairs/ && \
-  ssh-keygen -t ed25519 -f ./ssh-keypairs/documentation/ssh_host_ed25519_key
+  ssh-keygen -t ed25519 -f ./ssh-keypairs/ssh_host_ed25519_key
 
 # Then we create the SSH identity key for the Jenkins slave service 
 $ cd ../jenkins-slave/
@@ -33,6 +33,7 @@ When being asked for a passphrase, keep it empty.
 First we need to generate the ```authorized_keys``` file.
 
 ```bash
+$ cd ../documentation/
 $ cat ../jenkins-slave/ssh-keypairs/id_ed25519.pub > ./authorized_keys
 ```
 
