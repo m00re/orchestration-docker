@@ -149,6 +149,18 @@ services:
     ports:
       - 9004:80
 
+  documentation:
+    extends:
+      file: ./development/documentation/docker-compose.yml
+      service: documentation
+    networks:
+      - core
+      - development
+    depends_on:
+      - openldap
+    ports:
+      - 9007:80
+
   elasticsearch:
     extends:
       file: ./monitoring/docker-compose.yml
@@ -198,6 +210,7 @@ volumes:
   taiga-backups:
   vbox-repository:
   elasticsearch:
+  documentation:
 
 networks:
   development:

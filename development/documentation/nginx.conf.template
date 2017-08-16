@@ -1,0 +1,45 @@
+user  nginx;
+worker_processes  1;
+
+error_log   /var/log/nginx/error.log warn;
+pid         /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    log_format          main  '$remote_addr - $remote_user [$time_local] "$request" '
+                              '$status $body_bytes_sent "$http_referer" '
+                              '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log          /var/log/nginx/access.log  main;
+    sendfile            on;
+    keepalive_timeout   65;
+
+    # Define LDAP servers
+    ldap_server openldap-read {
+        url "ldap://openldap:389/ou=accounts,dc=example,dc=com?uid?sub";
+        binddn "cn=readonly,dc=example,dc=com";
+        binddn_passwd <YourLdapReadOnlyPasswordHere>;
+        group_attribute member;
+        group_attribute_is_dn on;
+        satisfy any;
+        require group "cn=developers,ou=groups,dc=example,dc=com";
+        require group "cn=jenkins-slaves,ou=groups,dc=example,dc=com";
+    }
+
+    server {
+        listen      80 default_server;
+        listen      [::]:80 default_server;
+        root        /home/nginx;
+
+        auth_ldap           "Documentation of example.com";
+        auth_ldap_servers   openldap-read;
+    }
+}

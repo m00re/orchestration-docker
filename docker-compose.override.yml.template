@@ -74,6 +74,10 @@ services:
     labels:
       domain: example.com
 
+  documentation:
+    labels:
+      domain: example.com
+
   vagrant-repository:
     labels:
       domain: example.com
