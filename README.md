@@ -5,7 +5,10 @@ within a few minutes. It uses the following Docker images:
 
  - Gitlab: https://hub.docker.com/r/sameersbn/gitlab/
  - Taiga: https://hub.docker.com/r/m00re/taiga/
- - Jenkins: https://hub.docker.com/r/m00re/jenkins-docker/ and https://hub.docker.com/r/m00re/jenkins-slave-hashicorp/
+ - Jenkins Master & Slaves: 
+   - Master: https://hub.docker.com/r/m00re/jenkins-docker/
+   - Slave with Vagrant support: https://hub.docker.com/r/m00re/jenkins-slave-hashicorp/
+   - Slave with Sphinx & Doxygen support: https://hub.docker.com/r/m00re/jenkins-slave-sphinx/
  - Vagrant Repository: https://github.com/m00re/nginx-ldap-docker
  - Kibana & Elasticsearch: https://github.com/elastic/kibana-docker and https://github.com/elastic/elasticsearch-docker
  - Logstash: https://github.com/m00re/logstash-docker
@@ -30,6 +33,7 @@ $ docker-compose up -d openldap
 $ docker-compose up -d taiga
 $ docker-compose up -d jenkins-master
 $ docker-compose up -d jenkins-slave
+$ docker-compose up -d jenkins-slave-sphinx
 $ docker-compose up -d gitlab
 $ docker-compose up -d vagrant-repository
 ```

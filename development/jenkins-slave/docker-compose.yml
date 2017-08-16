@@ -23,7 +23,30 @@ services:
       application: jenkins
       component: slave
       stage: production
-      os: alpine
+      os: centos
     volumes:
       - /dev/vboxdrv:/dev/vboxdrv
     privileged: true
+
+  jenkins-slave-sphinx:
+    image: m00re/jenkins-slave-sphinx:1.6.3
+    restart: always
+    environment:
+      - SWARM_VM_PARAMETERS=
+      - SWARM_MASTER_URL=
+      - SWARM_CLIENT_PARAMETERS=
+      - SWARM_JENKINS_USER=swarm
+      - SWARM_CLIENT_EXECUTORS=1
+      - SWARM_CLIENT_LABELS=doxygen sphinx
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+        labels: "domain,application,component,stage,os"
+    labels:
+      domain: example.com
+      application: jenkins
+      component: slave
+      stage: production
+      os: centos

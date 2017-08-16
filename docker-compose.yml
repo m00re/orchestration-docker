@@ -125,6 +125,18 @@ services:
       - SWARM_MASTER_URL=http://jenkins-master:8080/
       - SWARM_JENKINS_PASSWORD=<PasswordOfYourJenkinsSlaveUser>
 
+  jenkins-slave-sphinx:
+    extends:
+      file: ./development/jenkins-slave/docker-compose.yml
+      service: jenkins-slave-sphinx
+    networks:
+      - development
+    depends_on:
+      - jenkins-master
+    environment:
+      - SWARM_MASTER_URL=http://jenkins-master:8080/
+      - SWARM_JENKINS_PASSWORD=<PasswordOfYourJenkinsSlaveUser>
+
   vagrant-repository:
     extends:
       file: ./development/vbox-repository/docker-compose.yml

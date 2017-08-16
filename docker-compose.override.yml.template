@@ -68,6 +68,12 @@ services:
     labels:
       domain: example.com
 
+  jenkins-slave-sphinx:
+    environment:
+      - SWARM_JENKINS_PASSWORD=swarm
+    labels:
+      domain: example.com
+
   vagrant-repository:
     labels:
       domain: example.com
