@@ -58,7 +58,7 @@ Afterwards we can make sure that the keys and the known_hosts file are injected 
 
 ```
 volumes:
-  - ./ssh-keypairs/id_ed25519:/root/.ssh/id_ed25519:Z
-  - ./ssh-keypairs/id_ed25519.pub:/root/.ssh/id_ed25519.pub:Z
-  - ./known_hosts:/root/.ssh/known_hosts:Z
+  - ./ssh-keypairs/id_ed25519:/home/jenkins/.ssh/id_ed25519:Z
+  - ./ssh-keypairs/id_ed25519.pub:/home/jenkins/.ssh/id_ed25519.pub:Z
+  - ./known_hosts:/home/jenkins/.ssh/known_hosts:Z
 ```
