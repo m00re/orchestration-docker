@@ -32,9 +32,9 @@ services:
     image: m00re/jenkins-slave-sphinx:1.6.3
     restart: always
     volumes:
-      - ./ssh-keypairs/id_ed25519:/home/jenkins/.ssh/id_ed25519:Z
-      - ./ssh-keypairs/id_ed25519.pub:/home/jenkins/.ssh/id_ed25519.pub:Z
-      - ./known_hosts:/home/jenkins/.ssh/known_hosts:Z
+      - ./ssh-keypairs/id_ed25519:/inject/.ssh/id_ed25519:Z
+      - ./ssh-keypairs/id_ed25519.pub:/inject/.ssh/id_ed25519.pub:Z
+      - ./known_hosts:/inject/.ssh/known_hosts:Z
     environment:
       - SWARM_VM_PARAMETERS=
       - SWARM_MASTER_URL=
@@ -42,6 +42,7 @@ services:
       - SWARM_JENKINS_USER=swarm
       - SWARM_CLIENT_EXECUTORS=1
       - SWARM_CLIENT_LABELS=doxygen sphinx
+      - IMPORT_HOME_FROM=/inject
     logging:
       driver: json-file
       options:
