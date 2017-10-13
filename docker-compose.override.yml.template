@@ -90,6 +90,10 @@ services:
     labels:
       domain: example.com
 
+  kibana-protect:
+    labels:
+      domain: example.com
+
   logstash:
     environment:
       - INPUT_BEATS_SSL_KEY_PASSPHRASE=12345678
