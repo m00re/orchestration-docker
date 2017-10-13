@@ -44,7 +44,7 @@ services:
       - gitlab-db
     environment:
       - GITLAB_HOST=<YourExternalHostnameHere>
-      - GITLAB_PORT=9001
+      - GITLAB_PORT=443
       - DB_PASS=<YourGitlabDbPasswordHere>
       - GITLAB_SECRETS_DB_KEY_BASE=<YourLongAndRandomAlphanumericStringHere>
       - GITLAB_SECRETS_SECRET_KEY_BASE=<YourLongAndRandomAlphanumericStringHere>

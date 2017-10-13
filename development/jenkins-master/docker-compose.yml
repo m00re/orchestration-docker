@@ -1,7 +1,7 @@
 version: '2'
 services:
   jenkins-master:
-    image: m00re/jenkins-docker:2.46.3-alpine
+    image: m00re/jenkins-docker:2.60.2-alpine
     restart: always
     volumes:
       - jenkins-master:/var/jenkins_home:Z
