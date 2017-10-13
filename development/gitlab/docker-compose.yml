@@ -43,10 +43,11 @@ services:
       os: ubuntu
 
   gitlab:
-    image: sameersbn/gitlab:9.4.3
+    image: sameersbn/gitlab:9.5.5
     restart: always
     volumes:
       - gitlab-data:/home/git/data:Z
+      - gitlab-logs:/var/log/gitlab:Z
     environment:
       - DEBUG=false
       - DB_HOST=gitlab-db

@@ -204,6 +204,7 @@ volumes:
   gitlab-redis:
   gitlab-db:
   gitlab-data:
+  gitlab-logs:
   jenkins-master:
   taiga-db:
   taiga-media:
