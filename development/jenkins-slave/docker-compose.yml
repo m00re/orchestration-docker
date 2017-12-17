@@ -2,7 +2,7 @@ version: '2'
 services:
 
   jenkins-slave-vagrant:
-    image: m00re/jenkins-slave-hashicorp:3.4
+    image: m00re/jenkins-slave-hashicorp:3.6
     restart: always
     environment:
       - SWARM_VM_PARAMETERS=
@@ -29,7 +29,7 @@ services:
     privileged: true
 
   jenkins-slave-sphinx:
-    image: m00re/jenkins-slave-sphinx:1.6.3
+    image: m00re/jenkins-slave-sphinx:1.6.3-2
     restart: always
     volumes:
       - ./ssh-keypairs/id_ed25519:/inject/.ssh/id_ed25519:Z
