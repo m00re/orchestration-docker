@@ -103,7 +103,7 @@ services:
       - GITLAB_BACKUP_EXPIRY=82800
       - GITLAB_REGISTRY_ENABLED=true
       - GITLAB_REGISTRY_PORT=443
-      - GITLAB_REGISTRY_API_URL=http://registry:5000
+      - GITLAB_REGISTRY_API_URL=http://dockerregistry:5000
       - GITLAB_REGISTRY_KEY_PATH=/certs/registry.key
     logging:
       driver: json-file
