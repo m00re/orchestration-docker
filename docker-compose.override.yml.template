@@ -34,8 +34,13 @@ services:
       - LDAP_BIND_DN=cn=readonly,dc=example,dc=com
       - LDAP_PASS=readonly
       - LDAP_BASE=ou=users,ou=accounts,dc=example,dc=com
+      - GITLAB_REGISTRY_HOST=registry.example.com
     labels:
       domain: example.com
+
+  dockerregistry:
+    environment:
+      - REGISTRY_AUTH_TOKEN_REALM=https://git.example.com/jwt/auth
 
   taiga-db:
     environment:

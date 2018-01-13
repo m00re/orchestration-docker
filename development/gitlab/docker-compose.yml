@@ -42,12 +42,27 @@ services:
       stage: production
       os: ubuntu
 
+  dockerregistry:
+    image: registry
+    restart: always
+    volumes:
+      - docker-registry:/registry:Z
+      - ./certs:/certs:Z
+    environment:
+      - REGISTRY_LOG_LEVEL=info
+      - REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/registry
+      - REGISTRY_AUTH_TOKEN_SERVICE=container_registry
+      - REGISTRY_AUTH_TOKEN_ISSUER=gitlab-issuer
+      - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/certs/registry.crt
+      - REGISTRY_STORAGE_DELETE_ENABLED=true
+
   gitlab:
     image: sameersbn/gitlab:10.2.2
     restart: always
     volumes:
       - gitlab-data:/home/git/data:Z
       - gitlab-logs:/var/log/gitlab:Z
+      - ./certs:/certs:Z
     environment:
       - DEBUG=false
       - DB_HOST=gitlab-db
@@ -86,6 +101,10 @@ services:
       - SMTP_AUTHENTICATION=login
       - OAUTH_ENABLED=false
       - GITLAB_BACKUP_EXPIRY=82800
+      - GITLAB_REGISTRY_ENABLED=true
+      - GITLAB_REGISTRY_PORT=443
+      - GITLAB_REGISTRY_API_URL=http://registry:5000
+      - GITLAB_REGISTRY_KEY_PATH=/certs/registry.key
     logging:
       driver: json-file
       options:
