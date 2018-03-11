@@ -72,42 +72,6 @@ services:
     ports:
       - 9008:5000
 
-
-  taiga-db:
-    extends:
-      file: ./development/taiga/docker-compose.yml
-      service: taiga-db
-    networks:
-      - development
-    environment:
-      - POSTGRES_PASSWORD=<YourTaigaDbPasswordHere>
-
-  taiga:
-    extends:
-      file: ./development/taiga/docker-compose.yml
-      service: taiga
-    networks:
-      - core
-      - development
-    depends_on:
-      - taiga-db
-      - openldap
-    ports:
-      - 9002:80
-    environment:
-      - TAIGA_HOSTNAME=<YourTaigaHostnameHere>
-      - TAIGA_DB_PASSWORD=<YourTaigaDbPasswordHere>
-      - TAIGA_SECRET_KEY=<YourSecretKeyHere>
-      - LDAP_ENABLE=true
-      - LDAP_SERVER=openldap
-      - LDAP_PORT=389
-      - LDAP_BIND_DN=<YourLdapReadonlyUserHere>
-      - LDAP_BIND_PASSWORD=<YourLdapReadOnlyPasswordHere>
-      - LDAP_SEARCH_BASE=<YourLdapSearchBaseDirectoryHere>
-      - LDAP_SEARCH_PROPERTY=uid
-      - LDAP_EMAIL_PROPERTY=mail
-      - LDAP_FULL_NAME_PROPERTY=displayName
-
   jenkins-master:
     extends:
       file: ./development/jenkins-master/docker-compose.yml
@@ -217,9 +181,6 @@ volumes:
   gitlab-data:
   gitlab-logs:
   jenkins-master:
-  taiga-db:
-  taiga-media:
-  taiga-backups:
   vbox-repository:
   elasticsearch:
   documentation:

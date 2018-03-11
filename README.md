@@ -1,10 +1,9 @@
-# Docker Orchestration Template: OpenLDAP-based Gitlab, Taiga, Jenkins & Vagrant Repo
+# Docker Orchestration Template: OpenLDAP-based Gitlab, Jenkins & Vagrant Repo
 
-This is an orchestration template for Docker, that helps to setup a working Gitlab, Taiga & Jenkins environment
+This is an orchestration template for Docker, that helps to setup a working Gitlab & Jenkins environment
 within a few minutes. It uses the following Docker images:
 
  - Gitlab: https://hub.docker.com/r/sameersbn/gitlab/
- - Taiga: https://hub.docker.com/r/m00re/taiga/
  - Jenkins Master & Slaves: 
    - Master: https://hub.docker.com/r/m00re/jenkins-docker/
    - Slave with Vagrant support: https://hub.docker.com/r/m00re/jenkins-slave-hashicorp/
@@ -30,7 +29,6 @@ Once you are done, you can launch the services via
 
 ```
 $ docker-compose up -d openldap
-$ docker-compose up -d taiga
 $ docker-compose up -d jenkins-master
 $ docker-compose up -d jenkins-slave
 $ docker-compose up -d jenkins-slave-sphinx
@@ -53,7 +51,7 @@ $ docker exec <DockerComposePrefix>_openldap_1 slappasswd -s <YourSecurePassword
 By default, the following three user/application accounts are created:
 
  - maintainer: the main developer account
- - admin: the administration account for Jenkins, Taiga, Gitlab, and Kibana
+ - admin: the administration account for Jenkins, Gitlab, and Kibana
  - swarm: the Jenkins slave node account
 
 Feel free to add more accounts. 
@@ -65,7 +63,7 @@ Once you are done with editing the file `init.ldif`, copy it to the docker volum
 docker exec <DockerComposePrefix>_openldap_1 ldapadd -x -D "cn=admin,dc=example,dc=com" -f /var/lib/ldap/init.ldif -w <YourLdapAdminPassword>
 ```
 
-> Even though you can specify initial admin credentials for the Docker images of Jenkins, Taiga, and Gitlab, those will not
+> Even though you can specify initial admin credentials for the Docker images of Jenkins, and Gitlab, those will not
   work. All services always use the admin account defined in LDAP, hence you have to use the password stored in the LDAP
   directory.
 

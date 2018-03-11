@@ -42,23 +42,6 @@ services:
     environment:
       - REGISTRY_AUTH_TOKEN_REALM=https://git.example.com/jwt/auth
 
-  taiga-db:
-    environment:
-      - POSTGRES_PASSWORD=taiga
-    labels:
-      domain: example.com
-
-  taiga:
-    environment:
-      - TAIGA_HOSTNAME=taiga.example.com
-      - TAIGA_DB_PASSWORD=taiga
-      - TAIGA_SECRET_KEY=1234567
-      - LDAP_BIND_DN=cn=readonly,dc=example,dc=com
-      - LDAP_BIND_PASSWORD=readonly
-      - LDAP_SEARCH_BASE=ou=users,ou=accounts,dc=example,dc=com
-    labels:
-      domain: example.com
-
   jenkins-master:
     environment:
       - JENKINS_ADMIN_USER=admin
