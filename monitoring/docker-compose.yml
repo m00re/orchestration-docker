@@ -1,18 +1,17 @@
 version: '2'
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.4.3
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.3
     restart: always
     environment:
       - cluster.name=docker-cluster
-      - xpack.security.enabled=false
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
-    mem_limit: 1g
+    mem_limit: 4g
     volumes:
       - elasticsearch:/usr/share/elasticsearch/data
     logging:
@@ -29,13 +28,11 @@ services:
       os: alpine
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:5.4.3
+    image: docker.elastic.co/kibana/kibana-oss:6.2.3
     restart: always
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
       - SERVER_NAME=logs.example.com
-      - XPACK_SECURITY_ENABLED=false
-      - XPACK_MONITORING_ENABLED=false
     logging:
       driver: json-file
       options:
@@ -68,7 +65,7 @@ services:
       os: alpine
 
   logstash:
-    image: m00re/logstash:5.4.3
+    image: docker.elastic.co/logstash/logstash-oss:6.2.3
     restart: always
     volumes:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:Z

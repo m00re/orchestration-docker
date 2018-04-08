@@ -83,8 +83,6 @@ services:
       domain: example.com
 
   logstash:
-    environment:
-      - INPUT_BEATS_SSL_KEY_PASSPHRASE=12345678
     volumes:
       - ./pki/certificates/completed/ca.cert.pem:/config/CA.pem:Z
       - ./pki/certificates/completed/logstash.example.com.cert.pem:/config/logstash.crt:Z

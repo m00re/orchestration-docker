@@ -61,12 +61,29 @@ The existing configuration template expects the following files to be existing:
 - ```pki/certificates/completed/logstash.example.com.cert.pem```: the server certificate of the Logstash instance
 - ```pki/keys/logstash.example.com.key.p8```: the private key of the Logstash instance in PKCS #8 format
 
-If you named your certificates and private keys differently, please adjust the paths of the corresponding Logstash 
-instance volumes in ```docker-compose.override.yml```.
+If the private key above is secured with a passphrase, you need to specify it within the `logstash.yml` file.
 
-If your private key is protected by a passphrase (which you should do), also adjust the environment variable 
-```INPUT_BEATS_SSL_KEY_PASSPHRASE``` in ```docker-compose.override.yml``` and ensure that this file can only be read by
-the root user.
+```
+input {
+  beats {
+    port => 5044
+    ssl => true
+    ssl_key => "/config/logstash.p8"
+    ssl_key_passphrase => "SPECIFY_YOUR_PASSPHRASE_HERE"
+    ssl_certificate => "/config/logstash.crt"
+    ssl_certificate_authorities => [ "/config/CA.pem" ]
+    ssl_verify_mode => "force_peer"
+    tls_min_version => 1.2
+  }
+}
+``` 
+
+**Depending on your system setup, make sure that the `logstash.yml` file is only readable by the Logstash user.** 
+
+```
+$ chown 1000:1000 logstash.yml 
+$ chmod 600 logstash.yml
+```
 
 Once everything is configured, the Logstash service can be started.
 
