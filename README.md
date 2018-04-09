@@ -9,8 +9,6 @@ within a few minutes. It uses the following Docker images:
    - Slave with Vagrant support: https://hub.docker.com/r/m00re/jenkins-slave-hashicorp/
    - Slave with Sphinx & Doxygen support: https://hub.docker.com/r/m00re/jenkins-slave-sphinx/
  - Vagrant Repository: https://github.com/m00re/nginx-ldap-docker
- - Kibana & Elasticsearch: https://github.com/elastic/kibana-docker and https://github.com/elastic/elasticsearch-docker
- - Logstash: https://github.com/m00re/logstash-docker
 
 ## Starting up all containers
 
@@ -99,8 +97,3 @@ $ docker-compose up -d vagrant-repository
 
 All Docker container instances are configured to use the [JSON file logging driver](https://docs.docker.com/engine/admin/logging/json-file/).
 With this setup, Docker logs will be stored in ```/var/lib/docker/containers/**/*-json.log```. 
-
-Based on these files, it is possible to deploy an ELK-based log management solution. This orchestration already provides 
-all required ELK components and a matching configuration for each of them. 
-
-For more details please take a look at the dedicated chapter [Log Monitoring](monitoring/README.md).

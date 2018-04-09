@@ -136,43 +136,6 @@ services:
     ports:
       - 9007:80
 
-  elasticsearch:
-    extends:
-      file: ./monitoring/docker-compose.yml
-      service: elasticsearch
-    networks:
-      - monitoring
-
-  kibana:
-    extends:
-      file: ./monitoring/docker-compose.yml
-      service: kibana
-    networks:
-      - monitoring
-    depends_on:
-      - elasticsearch
-
-  kibana-protect:
-    extends:
-      file: ./monitoring/docker-compose.yml
-      service: kibana-protect
-    networks:
-      - monitoring
-      - core
-    ports:
-      - 9005:80
-
-  logstash:
-    extends:
-      file: ./monitoring/docker-compose.yml
-      service: logstash
-    networks:
-      - monitoring
-    depends_on:
-      - elasticsearch
-    ports:
-      - 5044:5044
-
 volumes:
   openldap-lib:
   openldap-slapd:
@@ -182,7 +145,6 @@ volumes:
   gitlab-logs:
   jenkins-master:
   vbox-repository:
-  elasticsearch:
   documentation:
   docker-registry:
 
@@ -190,6 +152,4 @@ networks:
   development:
     driver: bridge
   core:
-    driver: bridge
-  monitoring:
     driver: bridge

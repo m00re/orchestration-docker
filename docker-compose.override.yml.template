@@ -69,23 +69,3 @@ services:
   vagrant-repository:
     labels:
       domain: example.com
-
-  elasticsearch:
-    labels:
-      domain: example.com
-
-  kibana:
-    labels:
-      domain: example.com
-
-  kibana-protect:
-    labels:
-      domain: example.com
-
-  logstash:
-    volumes:
-      - ./pki/certificates/completed/ca.cert.pem:/config/CA.pem:Z
-      - ./pki/certificates/completed/logstash.example.com.cert.pem:/config/logstash.crt:Z
-      - ./pki/keys/logstash.example.com.key.p8:/config/logstash.p8:Z
-    labels:
-      domain: example.com
