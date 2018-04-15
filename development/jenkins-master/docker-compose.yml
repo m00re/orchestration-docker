@@ -5,6 +5,10 @@ services:
     restart: always
     volumes:
       - jenkins-master:/var/jenkins_home:Z
+      - ./lib/logging.properties:/var/jenkins_home/logging.properties
+      - ./lib/logstash-util-formatter-1.1.jar:/var/jenkins_home/lib/logstash-util-formatter-1.1.jar
+      - ./lib/javax.json-api-1.0.jar:/var/jenkins_home/lib/javax.json-api-1.0.jar
+      - ./lib/javax.json-1.0.jar:/var/jenkins_home/lib/javax.json-1.0.jar
     logging:
       driver: json-file
       options:
@@ -18,7 +22,7 @@ services:
       stage: production
       os: alpine
     environment:
-      - JAVA_VM_PARAMETERS=-Xmx1024m -Xms512m
+      - JAVA_VM_PARAMETERS=-Xmx1024m -Xms512m -Djava.endorsed.dirs=/var/jenkins_home/lib -Djava.util.logging.config.file=/var/jenkins_home/logging.properties
       - JENKINS_PARAMETERS=
       - JENKINS_MASTER_EXECUTORS=0
       - JENKINS_SLAVEPORT=50000

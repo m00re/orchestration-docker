@@ -3,3 +3,4 @@ portainer/
 */backups
 *.override.yml
 .idea
+Vagrantfile
