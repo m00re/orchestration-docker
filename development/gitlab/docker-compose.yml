@@ -57,7 +57,7 @@ services:
       - REGISTRY_STORAGE_DELETE_ENABLED=true
 
   gitlab:
-    image: sameersbn/gitlab:10.7.2
+    image: sameersbn/gitlab:11.5.1
     restart: always
     volumes:
       - gitlab-data:/home/git/data:Z
