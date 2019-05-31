@@ -29,6 +29,7 @@ Once you are done, you can launch the services via
 $ docker-compose up -d openldap
 $ docker-compose up -d jenkins-master
 $ docker-compose up -d jenkins-slave
+$ docker-compose up -d jenkins-slave-javaee
 $ docker-compose up -d jenkins-slave-sphinx
 $ docker-compose up -d gitlab
 $ docker-compose up -d vagrant-repository

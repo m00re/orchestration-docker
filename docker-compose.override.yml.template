@@ -56,6 +56,12 @@ services:
     labels:
       domain: example.com
 
+  jenkins-slave-javaee:
+    environment:
+      - SWARM_JENKINS_PASSWORD=swarm
+    labels:
+      domain: example.com
+
   jenkins-slave-sphinx:
     environment:
       - SWARM_JENKINS_PASSWORD=swarm
